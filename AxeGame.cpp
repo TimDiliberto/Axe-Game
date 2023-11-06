@@ -29,11 +29,15 @@ int main()
         DrawCircle(centerX, centerY, radius, BLUE);
         float speed = 10.0;
 
-        // Move circle smoothly with WASD
-        if (IsKeyDown(KEY_W)) { centerY = centerY - speed;}
-        if (IsKeyDown(KEY_A)) { centerX = centerX - speed;}
-        if (IsKeyDown(KEY_S)) { centerY = centerY + speed;}
-        if (IsKeyDown(KEY_D)) { centerX = centerX + speed;}
+        // Move circle smoothly with WASD and add barrier
+        if (IsKeyDown(KEY_W) && centerY > 0 + radius)
+            { centerY = centerY - speed;}
+        if (IsKeyDown(KEY_A) && centerX > 0 + radius)
+            { centerX = centerX - speed;}
+        if (IsKeyDown(KEY_S) && centerY < height - radius)
+            { centerY = centerY + speed;}
+        if (IsKeyDown(KEY_D) && centerX < width - radius)
+            { centerX = centerX + speed;}
 
         // Deconstruct window data
         EndDrawing();
