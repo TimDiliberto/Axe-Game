@@ -14,9 +14,9 @@ int main()
     float gravity{9.81};
 
     // Initialize circle data
-    int circleX{400};
-    int circleY{400};
-    float circleRadius{50.0};
+    int circleX{800};
+    int circleY{800};
+    int circleRadius{50};
     float circleSpeed{10.0};
     // circle edges
     int l_circleX{circleX - circleRadius};
@@ -35,6 +35,16 @@ int main()
     int u_axeY{axeY};
     int b_axeY{axeY + axeLength};
 
+    // Initialize game variables
+    bool collisionWithAxe {
+        b_axeY >= u_circleY &&
+        u_axeY <= b_circleY &&
+        l_axeX <= r_circleX &&
+        r_axeX >= l_circleX };
+    int textX{605};
+    int textY{419};
+    int textSize{69};
+
     // Ideal frames per second
     SetTargetFPS(60);
 
@@ -45,24 +55,46 @@ int main()
         BeginDrawing();
         ClearBackground(BLACK);
 
-        // Draw shapes
-        DrawCircle(circleX, circleY, circleRadius, BLUE);
-        DrawRectangle(axeX, axeY, axeLength, axeLength, RED);
-        //DrawRectangle(axeX+200, axeY, axeLength, axeLength, BROWN);
+        if (collisionWithAxe)
+            { DrawText("Game Over!", textX, textY, textSize, RED); }
+        else 
+        {
+            // update edges
+            l_circleX = circleX - circleRadius;
+            r_circleX = circleX + circleRadius;
+            u_circleY = circleY - circleRadius;
+            b_circleY = circleY + circleRadius;
+            
+            l_axeX = axeX;
+            r_axeX = axeX + axeLength;
+            u_axeY = axeY;
+            b_axeY = axeY + axeLength;
 
-        // Move the axe
-        axeY += axeMass * gravity;
-        if (axeY >= (winHeight-axeLength) || axeY <= 0) { axeMass = -axeMass; }
+            // update collisionWithAxe
+            collisionWithAxe =
+                b_axeY >= u_circleY &&
+                u_axeY <= b_circleY &&
+                l_axeX <= r_circleX &&
+                r_axeX >= l_circleX;
+            // Draw shapes
+            DrawCircle(circleX, circleY, circleRadius, BLUE);
+            DrawRectangle(axeX, axeY, axeLength, axeLength, RED);
+            //DrawRectangle(axeX+200, axeY, axeLength, axeLength, BROWN);
 
-        // Move circle smoothly with WASD and add barrier
-        if (IsKeyDown(KEY_W) && circleY > 0 + circleRadius)
-            { circleY -= circleSpeed;}
-        if (IsKeyDown(KEY_A) && circleX > 0 + circleRadius)
-            { circleX -= circleSpeed;}
-        if (IsKeyDown(KEY_S) && circleY < winHeight - circleRadius)
-            { circleY += circleSpeed;}
-        if (IsKeyDown(KEY_D) && circleX < winWidth - circleRadius)
-            { circleX += circleSpeed;}
+            // Move the axe with window collision
+            axeY += axeMass * gravity;
+            if (axeY >= (winHeight-axeLength) || axeY <= 0) { axeMass = -axeMass; }
+
+            // Move circle smoothly with WASD and add window collision
+            if (IsKeyDown(KEY_W) && circleY > 0 + circleRadius)
+                { circleY -= circleSpeed;}
+            if (IsKeyDown(KEY_A) && circleX > 0 + circleRadius)
+                { circleX -= circleSpeed;}
+            if (IsKeyDown(KEY_S) && circleY < winHeight - circleRadius)
+                { circleY += circleSpeed;}
+            if (IsKeyDown(KEY_D) && circleX < winWidth - circleRadius)
+                { circleX += circleSpeed;}
+        }
 
         // Deconstruct window data
         EndDrawing();
