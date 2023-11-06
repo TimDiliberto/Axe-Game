@@ -1,5 +1,15 @@
 /*
+AxeGame.cpp
+Small game to learn C++ and raylib basics. Concepts covered include:
+    * Initialize window
+    * Initialize variables
+    * Drawing sprites
+    * while loops
+    * if and else statements
+    * Movement, Collision, and minimal physics
+    * Code structure and organization
 
+Tim Diliberto
 */
 #include "raylib.h"
 
