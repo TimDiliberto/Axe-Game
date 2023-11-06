@@ -5,21 +5,37 @@
 
 int main()
 {
-    // Initialize WIDTH and HEIGHT variables
-    int width = 1600;
-    int height = 900;
-
-    // Initialize Popup window with specified dimensions and title
+    // Initialize window dimensions WIDTH and HEIGHT
+    int width{1600};
+    int height{900};
     InitWindow(width, height, "Axe Game");
 
-    // WindowShouldClose will return false until you hit 'ESC' or 'X' button
+    // Initialize circle data
+    int centerX = 800;
+    int centerY = 450;
+    float radius = 50.0;
+
+    // Ideal frames per second
+    SetTargetFPS(60);
+
+    // WindowShouldClose() will return false until you hit 'ESC' or 'X' button
     while (!WindowShouldClose())
     {
-        // Setup and deconstruct background color
+        // Setup window data
         BeginDrawing();
         ClearBackground(BLACK);
-        // Draw centered circle
-        DrawCircle(800, 450, 50, BLUE);
+
+        // Draw centered circle and initialize movement SPEED
+        DrawCircle(centerX, centerY, radius, BLUE);
+        float speed = 10.0;
+
+        // Move circle smoothly with WASD
+        if (IsKeyDown(KEY_W)) { centerY = centerY - speed;}
+        if (IsKeyDown(KEY_A)) { centerX = centerX - speed;}
+        if (IsKeyDown(KEY_S)) { centerY = centerY + speed;}
+        if (IsKeyDown(KEY_D)) { centerX = centerX + speed;}
+
+        // Deconstruct window data
         EndDrawing();
     }
 
