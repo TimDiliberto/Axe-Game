@@ -12,8 +12,10 @@ int main()
     // Initialize Popup window with specified dimensions and title
     InitWindow(width, height, "Axe Game");
 
-    while (true)
+    // WindowShouldClose will return false until you hit 'ESC' or 'X' button
+    while (!WindowShouldClose())
     {
+        // Setup and deconstruct background color
         BeginDrawing();
         ClearBackground(BLACK);
         EndDrawing();
