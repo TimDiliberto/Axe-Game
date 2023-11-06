@@ -6,14 +6,21 @@
 int main()
 {
     // Initialize window dimensions WIDTH and HEIGHT
-    int width{1600};
-    int height{900};
-    InitWindow(width, height, "Axe Game");
+    int winWidth{1600};
+    int winHeight{900};
+    InitWindow(winWidth, winHeight, "Axe Game");
 
     // Initialize circle data
-    int centerX = 800;
-    int centerY = 450;
+    int circleX = 400;
+    int circleY = 400;
     float radius = 50.0;
+    float speed = 10.0;
+
+    // Initialize axe data
+    int axeX = 300;
+    int axeY = 0;
+    int axeWidth = 50;
+    int axeHeight = 50;
 
     // Ideal frames per second
     SetTargetFPS(60);
@@ -25,19 +32,23 @@ int main()
         BeginDrawing();
         ClearBackground(BLACK);
 
-        // Draw centered circle and initialize movement SPEED
-        DrawCircle(centerX, centerY, radius, BLUE);
-        float speed = 10.0;
+        // Draw shapes
+        DrawCircle(circleX, circleY, radius, BLUE);
+        DrawRectangle(axeX, axeY, axeWidth, axeHeight, RED);
+        //DrawRectangle(axeX+200, axeY, axeWidth, axeHeight, BROWN);
+
+        // Move the axe
+        axeY += speed;
 
         // Move circle smoothly with WASD and add barrier
-        if (IsKeyDown(KEY_W) && centerY > 0 + radius)
-            { centerY = centerY - speed;}
-        if (IsKeyDown(KEY_A) && centerX > 0 + radius)
-            { centerX = centerX - speed;}
-        if (IsKeyDown(KEY_S) && centerY < height - radius)
-            { centerY = centerY + speed;}
-        if (IsKeyDown(KEY_D) && centerX < width - radius)
-            { centerX = centerX + speed;}
+        if (IsKeyDown(KEY_W) && circleY > 0 + radius)
+            { circleY -= speed;}
+        if (IsKeyDown(KEY_A) && circleX > 0 + radius)
+            { circleX -= speed;}
+        if (IsKeyDown(KEY_S) && circleY < winHeight - radius)
+            { circleY += speed;}
+        if (IsKeyDown(KEY_D) && circleX < winWidth - radius)
+            { circleX += speed;}
 
         // Deconstruct window data
         EndDrawing();
